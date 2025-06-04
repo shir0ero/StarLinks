@@ -1,87 +1,65 @@
+# build_graph.py
 import csv
 import networkx as nx
 import pickle
-import sys
 
-# Globals
-people = {}  # person_id -> name
-names = {}   # lowercase name -> set of person_ids
-
-def load_data(directory):
-    """
-    Load people dictionary and build names mapping.
-    """
-    with open(f"{directory}/people.csv", encoding="utf-8") as f:
+def load_people(filename):
+    people = {}
+    with open(filename, encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            person_id = row["id"]
-            name = row["name"]
-            people[person_id] = name
-            lower_name = name.lower()
-            if lower_name not in names:
-                names[lower_name] = {person_id}
-            else:
-                names[lower_name].add(person_id)
+            people[row['id']] = row['name']
+    return people
 
-def person_id_for_name(name):
-    """
-    Return person_id for a given name after resolving ambiguities.
-    """
-    person_ids = list(names.get(name.lower(), set()))
-    if len(person_ids) == 0:
-        return None
-    elif len(person_ids) > 1:
-        print(f"Which '{name}'?")
-        for pid in person_ids:
-            print(f"ID: {pid}, Name: {people[pid]}")
-        try:
-            selected_id = input("Intended Person ID: ").strip()
-            if selected_id in person_ids:
-                return selected_id
-        except Exception:
-            pass
-        return None
-    else:
-        return person_ids[0]
+def load_movies(filename):
+    movies = {}
+    with open(filename, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            movies[row['id']] = row['title']
+    return movies
 
-def main():
-    directory = sys.argv[1] if len(sys.argv) > 1 else "large"
+def load_stars(filename):
+    stars = {}
+    with open(filename, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            movie_id = row['movie_id']
+            person_id = row['person_id']
+            if movie_id not in stars:
+                stars[movie_id] = set()
+            stars[movie_id].add(person_id)
+    return stars
 
-    print("Loading data...")
-    load_data(directory)
-    print("Data loaded.")
+def build_graph(people_file, movies_file, stars_file):
+    people = load_people(people_file)
+    movies = load_movies(movies_file)
+    stars = load_stars(stars_file)
 
-    print("Loading graph...")
-    with open("graph.pkl", "rb") as f:
-        graph = pickle.load(f)
-    print("Graph loaded.")
+    G = nx.Graph()
 
-    source_name = input("Name: ")
-    source_id = person_id_for_name(source_name)
-    if source_id is None:
-        print(f"Person '{source_name}' not found.")
-        return
+    for person_id, name in people.items():
+        G.add_node(person_id, name=name)
 
-    target_name = input("Name: ")
-    target_id = person_id_for_name(target_name)
-    if target_id is None:
-        print(f"Person '{target_name}' not found.")
-        return
+    for movie_id, actors in stars.items():
+        movie_title = movies.get(movie_id, "Unknown")
+        actors = list(actors)
+        for i in range(len(actors)):
+            for j in range(i + 1, len(actors)):
+                if G.has_edge(actors[i], actors[j]):
+                    existing = G.edges[actors[i], actors[j]].get('movies', [])
+                    if movie_title not in existing:
+                        existing.append(movie_title)
+                    G.edges[actors[i], actors[j]]['movies'] = existing
+                else:
+                    G.add_edge(actors[i], actors[j], movies=[movie_title])
 
-    try:
-        path = nx.shortest_path(graph, source=source_id, target=target_id)
-    except nx.NetworkXNoPath:
-        print("Not connected.")
-        return
-
-    degrees = len(path) - 1
-    print(f"{degrees} degrees of separation.")
-    for i in range(degrees):
-        person1 = people[path[i]]
-        person2 = people[path[i + 1]]
-        # Edges store movie_id in attribute 'movie' (assumed)
-        movie = graph.edges[path[i], path[i + 1]]['movie']
-        print(f"{i + 1}: {person1} and {person2} starred in {movie}")
+    return G, people
 
 if __name__ == "__main__":
-    main()
+    G, people = build_graph("large/people.csv", "large/movies.csv", "large/stars.csv")
+    with open("graph.pkl", "wb") as f:
+        pickle.dump(G, f)
+    with open("people.pkl", "wb") as f:
+        pickle.dump(people, f)
+    print("Graph and people data saved to graph.pkl and people.pkl")
