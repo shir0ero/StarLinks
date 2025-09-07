@@ -1,54 +1,54 @@
-# StarLinks
+# 🌟 StarLinks: Actor Degrees of Separation
 
-StarLinks is a Python-based project that finds the shortest connection between any two actors in the film industry — inspired by the "Six Degrees of Separation" theory.
+Inspired by the "Six Degrees of Kevin Bacon" game, **StarLinks** is a Python project that calculates the *degrees of separation* between any two actors.  
+It builds a graph of actors and their co-starring relationships, then finds the shortest path connecting them.  
 
-Using real-world movie cast data, it maps the relationships between actors based on the films they've starred in together and calculates the shortest path between them using graph traversal algorithms.
-
----
-
-## Features
-
-- Calculate degrees of separation between two actors
-- Uses CSV datasets of movies, actors, and roles
-- Efficient graph-based implementation (BFS)
-- Modular codebase with clear utility functions
-- Designed for future integration into a visual web interface
+The project includes both a **command-line tool** and a **RESTful API**, making it easy to explore or integrate.
 
 ---
 
-## Dataset Structure
+## ✨ Features
 
-This project uses a dataset consisting of:
-
-- `people.csv` — Actor IDs and names
-- `movies.csv` — Movie IDs and titles
-- `stars.csv` — Links actors to the movies they’ve appeared in
-
-> These are stored in the `small/` folder for a lightweight demo.
-
----
-
-## Technologies Used
-
-- Python 3
-- CSV parsing
-- Breadth-First Search (BFS) for shortest path
-- Planned frontend: HTML/CSS/JS with a graph visualization library (e.g. D3.js or Vis.js)
+- **Graph-Based Analysis** – Uses [NetworkX](https://networkx.org/) to model actor relationships as a graph.  
+- **Degrees of Separation** – Efficiently computes the shortest path between two actors.  
+- **Detailed Path Output** – Returns not only the number of degrees but also the movies linking each pair.  
+- **Command-Line Interface** – A simple, interactive CLI (`degrees.py`) for quick lookups.  
+- **RESTful API** – A Flask-based API (`api.py`) to integrate with other apps or services.  
+- **Fast Startup** – Graphs are pre-built and serialized with `pickle` for quick loading.  
 
 ---
 
-## Planned Features
+## 🚀 Getting Started
 
-- 🌐 Web interface to input actor names
-- 📈 Graphical visualization of connections
-- 🧠 Search suggestions with fuzzy actor matching
-- 🔍 Highlight shortest connection path with movie titles
+### Prerequisites
+
+- Python **3.6+**
+- Required libraries:
+  ```bash
+  pip install Flask networkx
+
+
+### 📦 Data Files
+The project relies on three CSV files to build the actor graph. Place these files in the same directory or update paths in `build_graph.py` as needed:
+- `people.csv` — Actor IDs and names (e.g. `person_id,name,birth`)  
+- `movies.csv` — Movie IDs and titles (e.g. `movie_id,title,year`)  
+- `stars.csv` — Links actors to movies (e.g. `movie_id,person_id`)  
+
+You can use the included datasets (`large/`, `small/`) or build your own dataset (for example from TMDB).
 
 ---
 
-## Running the Project
+### 🔨 Build the Graph
+Before running the application, build and serialize the graph:
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/shir0ero/degrees.git
-   cd degrees
+This will create:
+- `graph.pkl` — Serialized actor graph (NetworkX graph)  
+- `people.pkl` — Serialized people dictionary (ID → name data)  
+
+---
+
+## 🤝 Contribution
+Contributions are welcome!  
+- 🐛 Found a bug? Open an issue.  
+- 💡 Have a feature idea? Start a discussion or open an issue.  
+- 🔧 Want to contribute code? Submit a pull request.  
