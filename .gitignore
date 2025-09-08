@@ -1,0 +1,5 @@
+# Git ignore rules
+*.pyc
+__pycache__/
+.env
+*.pkl

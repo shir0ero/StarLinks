@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarLinks - Actor Degrees of Separation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-star"></i>
+                <h1>StarLinks</h1>
+            </div>
+            <p class="tagline">Discover the connections that bind stars together</p>
+        </header>
+
+        <!-- Main Search Section -->
+        <main class="main-content">
+            <div class="search-section" id="searchSection">
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            id="mainSearchInput" 
+                            class="search-input" 
+                            placeholder="  Search for any actor or actress..."
+                            autocomplete="off"
+                        >
+                        <div class="search-suggestions" id="searchSuggestions"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons (Hidden initially) -->
+                <div class="action-buttons" id="actionButtons" style="display: none;">
+                    <div class="selected-actor" id="selectedActor"></div>
+                    <div class="buttons-grid">
+                        <button class="action-btn" id="knowAboutBtn">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Know About Star</span>
+                        </button>
+                        <button class="action-btn" id="degreeSeparationBtn">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>Degrees of Separation</span>
+                        </button>
+                        <button class="action-btn" id="socialLinksBtn">
+                            <i class="fas fa-share-alt"></i>
+                            <span>Social Links</span>
+                        </button>
+                        <button class="action-btn" id="resetBtn">
+                            <i class="fas fa-redo"></i>
+                            <span>New Search</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature Sections (Hidden initially) -->
+            
+            <!-- Know About Star Section -->
+            <section class="feature-section" id="knowAboutSection" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-circle"></i> Actor Profile</h2>
+                    <button class="close-btn" onclick="closeSection('knowAboutSection')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="actor-profile" id="actorProfile">
+                    <!-- Profile content will be dynamically loaded -->
+                </div>
+            </section>
+
+            <!-- Degrees of Separation Section -->
+            <section class="feature-section" id="degreeSeparationSection" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-project-diagram"></i> Degrees of Separation</h2>
+                    <button class="close-btn" onclick="closeSection('degreeSeparationSection')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="separation-content">
+                    <div class="actors-selection">
+                        <div class="actor-card selected-actor-card">
+                            <div class="actor-name" id="firstActorName"></div>
+                            <div class="actor-birth" id="firstActorBirth"></div>
+                        </div>
+                        <div class="vs-separator">
+                            <i class="fas fa-arrows-alt-h"></i>
+                        </div>
+                        <div class="search-container secondary">
+                            <div class="search-input-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input 
+                                    type="text" 
+                                    id="secondActorInput" 
+                                    class="search-input secondary" 
+                                    placeholder="Search for second actor..."
+                                    autocomplete="off"
+                                >
+                                <div class="search-suggestions secondary" id="secondActorSuggestions"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="connection-results" id="connectionResults"></div>
+                    <div class="network-visualization" id="networkVisualization"></div>
+                </div>
+            </section>
+
+            <!-- Social Links Section -->
+            <section class="feature-section" id="socialLinksSection" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-share-alt"></i> Social Media & Links</h2>
+                    <button class="close-btn" onclick="closeSection('socialLinksSection')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="social-links-content" id="socialLinksContent">
+                    <!-- Social links will be dynamically loaded -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 StarLinks. Discover the invisible threads connecting industry finest.</p>
+        </footer>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
