@@ -4,3 +4,4 @@ networkx
 requests
 tqdm
 python-dotenv
+gunicorn
