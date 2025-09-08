@@ -4,7 +4,7 @@ import csv
 import requests
 import time
 import os
-import config
+from backend import config
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 

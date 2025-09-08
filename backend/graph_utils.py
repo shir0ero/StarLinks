@@ -2,7 +2,7 @@
 
 import csv
 import networkx as nx
-import config
+from backend import config
 
 def load_data(people_file):
     """

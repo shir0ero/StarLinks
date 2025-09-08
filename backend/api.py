@@ -4,7 +4,8 @@ import pickle
 import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import config
+from backend import config
+from backend import graph_utils
 from graph_utils import load_data, find_path
 import networkx as nx
 from itertools import combinations

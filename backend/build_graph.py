@@ -4,7 +4,8 @@ import csv
 import networkx as nx
 import pickle
 from itertools import combinations
-import config
+from backend import config
+from backend import graph_utils
 from graph_utils import load_data
 
 def load_movies_and_stars(movies_file, stars_file):
